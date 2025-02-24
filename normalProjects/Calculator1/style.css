@@ -1,0 +1,87 @@
+body{
+   background-image: url("https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdHAyNDQtYmc0LTA1Yl8yLWt1cThyNGFpLmpwZw.jpg");
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    font-size: 20px;
+}
+.container{
+    height: 99vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.calculator{
+    border: 5px solid rgb(0, 0, 0);
+    border-radius: 50px;
+    background-image: linear-gradient(rgb(129, 120, 255), rgb(252, 0, 0));
+    min-height: 90vh;
+    width: 25vw;
+    box-shadow: 5px 5px 30px black;
+}
+
+.screen{
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#display{
+    font-size: 50px; 
+    color: white;
+    border-radius: 50px;
+    margin-right: 30px;
+    width: 25vw;
+    min-height: 25vh;
+    text-align: right;
+    background-color:transparent ;
+    border: none;
+
+}
+#secdisplay{
+    font-size: 30px; 
+    color: white;
+    border-radius: 50px;
+    margin: 0;
+    width: 25vw;
+    text-align: right;
+    background-color:transparent ;
+    border: none;
+
+}
+
+
+
+.buttons{
+    background-image: linear-gradient(to bottom right ,rgb(0, 0, 0), rgb(36, 36, 36) );
+    height: 55vh;
+    border-radius:40px ;
+    display: grid;
+    grid-template-columns: 0.1fr 0.1fr 0.1fr 0.1fr ;
+    grid-template-rows: 0.1fr 0.1fr 0.1fr 0.1fr ;
+    gap:2px 5px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 70px;
+    
+
+}
+
+.btn{
+    color: rgb(153, 153, 153);
+    border-radius: 25px;
+    background-color: rgb(29, 29, 29);
+    border: 1px solid rgb(49, 49, 49);
+    box-shadow: 2px 2px 5px rgb(0, 0, 0);
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+}
