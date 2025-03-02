@@ -1,0 +1,35 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container{
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+}
+.board{
+    border: 1px solid rgba(172, 172, 172, 0.486);
+    height: 80vh;
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.555) ;
+}
+
+.items{
+}
+.item{
+    border: 1px solid black;
+    padding: 15px 10px;
+    margin: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.item:hover{
+    background-color: black;
+    color: white;
+}
