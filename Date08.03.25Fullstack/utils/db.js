@@ -12,7 +12,7 @@ export default function connect() {
         console.log("Error Connecting DB");
       });
   } catch (error) {
-      throw new Error("MONGODB connection failed")
+      throw new Error("MONGODB connection failed...")
   }
 }
 
