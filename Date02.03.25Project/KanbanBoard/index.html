@@ -1,31 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
-        <div id="todoBoard" class="board">
-            <h1>Todo</h1>
-            <div class="items">
-                <p draggable = "true" class="item">Learn react</p>
-                <p class="item">Learn JS</p>
+    <div class="outerBox">
+        <div class="nav">
+            <div id="logoSearch">
+                <input id="search" type="text" placeholder="Search Box">
+            </div>
+            <div id="logo">
+                <h2>Kanban Board</h2>
+            </div>
+            <button id="addBoxBtn">Add Board</button>
+
+        </div>
+        <div class="container">
+            <div id="todoBoard" class="board">
+                <h1>Todo</h1>
+                <button id="todoTask" class="btns">+ Add Task</button>
+            </div>
+
+
+            <div id="inProgress" class="board">
+                <h1>In progress</h1>
+                <button id="progressTask" class="btns">+ Add Task</button>
+            </div>
+
+            <div id="done" class="board">
+                <h1>Done</h1>
+                <button id="doneTask" class="btns">+ Add Task</button>
             </div>
         </div>
+    </div>
+    <div id="pop" style="display: none;">
+        <div class="inputBox">
+            <button id="cross1">X</button>
+            <h1 id="h1forinputs">Add Task</h1>
+            <div>
+                <label id="inputName1" for="Task">Add Task</label>
+                <input class="input" id="task" name="Task" type="text">
+            </div>
 
+            <div id="disccont">
+                <label id="inputName2" for="Discription">Discription</label>
+                <input class="input" id="desc" name="Discription" type="text">
+            </div>
 
-        <div class="board">
-            <h1>In progress</h1>
-        </div>
+            <div>
+                <div>
+                    <label for="favcolor">Select color</label>
+                    <input type="color" id="favcolor" value="#ff0000">
+                </div>
+            </div>
 
-        <div class="board">
-            <h1>Done</h1>
+            <div>
+                <button class="CreateBtn" id="addBoxBtn2">Create Box</button>
+            </div>
+
         </div>
     </div>
-    <button id="addTaskBtn">Add Task</button>
+
+    <!-- <button id="addTask">addTask</button> -->
+
 </body>
 <script src="script.js"></script>
+
 </html>
