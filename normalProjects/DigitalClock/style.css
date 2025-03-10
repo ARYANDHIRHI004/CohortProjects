@@ -1,0 +1,29 @@
+body{
+    background-color: rgb(29, 29, 29);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.container{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 98vw;
+    height: 98vh;
+}
+.dateTime{
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50vw;
+    min-height: 30vh;
+    background-color: rgb(53, 53, 53);
+}
+.Time{
+    font-size: 80px;
+    color: rgb(36, 255, 36);
+}
+

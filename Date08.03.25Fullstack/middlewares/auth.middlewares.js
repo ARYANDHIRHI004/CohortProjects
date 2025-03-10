@@ -2,11 +2,12 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 const verifyJWT = async (req, res, next) => {
+    const token = req.cookies?.token
     try {
-        const token = req.cookie?.token
+        
         if(!token){
             res.status(400).json({
-                message: "token not present" 
+                message: "please login" 
             })
         }
         const decodedToken = jwt.verify(token, 'shhhhhh');
@@ -20,7 +21,7 @@ const verifyJWT = async (req, res, next) => {
         next()
     } catch (error) {
         res.status(400).json({
-            message: "error"
+            message: "user not logged in"
         })
     }
 

@@ -1,10 +1,11 @@
 import { User } from "../models/user.model.js";
 import crypto from "crypto";
-import nodemailer from "nodemailer"
-import jwt from "jsonwebtoken"
-import dotenv from 'dotenv'
+import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
-dotenv.config()
+dotenv.config();
 
 const registerUser = async (req, res) => {
   //Take data from user
@@ -15,15 +16,15 @@ const registerUser = async (req, res) => {
   //save token in db
   //send token as email to user
   //response- success
-  const { name, email, password} = req.body;
+  const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({
       message: "All filds are required",
     });
   }
 
-//   try {
-    const existedUser = await User.findOne({email});
+  try {
+    const existedUser = await User.findOne({ email });
     if (existedUser) {
       return res.status(400).json({
         message: "User already exist",
@@ -37,7 +38,6 @@ const registerUser = async (req, res) => {
     });
 
     console.log(user);
-    
 
     if (!user) {
       return res.status(500).json({
@@ -61,28 +61,25 @@ const registerUser = async (req, res) => {
     });
 
     const mailOption = {
-        from: process.env.MAILTRAP_SENDERMAIL,
-        to: user.email,
-        subject: "Varify your email",
-        text: `Please click on the following link:
-        ${process.env.BASE_URL}/api/v1/user/verify/${token}`,
-    }
+      from: process.env.MAILTRAP_SENDERMAIL,
+      to: user.email,
+      subject: "Verify your email",
+      text: `Please click on the following link: ${process.env.BASE_URL}/api/v1/user/verify/${token}`,
+    };
 
-    await transport.sendMail(mailOption)
+    await transport.sendMail(mailOption);
 
     res.status(201).json({
-        message: "User create successfully",
-        success: true,
-    })
-
-
-//   } catch (error) {
-//     res.status(400).json({
-//         message: "User not register",
-//         success: false,
-//         error
-//     })
-//   }
+      message: "User create successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "User not register",
+      success: false,
+      error,
+    });
+  }
 };
 
 const varifyUser = async (req, res) => {
@@ -95,111 +92,115 @@ const varifyUser = async (req, res) => {
   //save
   //retuen respose
 
-  const {token} = req.params
+  const { token } = req.params;
   console.log(token);
-  
-  if (!token) {
-    return res.status(400).json({
-        message: "Invalid token"
-    })
+  try {
+    if (!token) {
+      return res.status(400).json({
+        message: "Invalid token",
+      });
+    }
+
+    const user = await User.findOne({ verificationToken: token });
+
+    if (!user) {
+      return res.status(500).json({
+        message: "User not found token wala",
+      });
+    }
+
+    user.isVarified = true;
+    user.verificationToken = undefined; //charcha
+    await user.save();
+
+    res.status(200).json({
+      message: "Varification successfull",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "User not register",
+    });
   }
-
-  const user = await User.findOne({verificationToken : token})
-  
-  if (!user) {
-    return res.status(500).json({
-        message: "User not found token wala"
-    })
-  }
-
-  user.isVarified = true
-  user.verificationToken = undefined //charcha
-  await user.save()
-  
-  res.status(200).json({
-    message: "Varification successfull"
-  })
-
-}
+};
 
 const loginUser = async (req, res) => {
-  const {email, password} = req.body
+  const { email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({
-        message: "Empty"
-    })
+      message: "Empty",
+    });
   }
 
   try {
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
 
     if (!user) {
-        return res.status(400).json({
-        message: "Use not found"
-        })
+      return res.status(400).json({
+        message: "Use not found",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        return res.status(400).json({
-            message: "Invalid password or email"
-        })
+      return res.status(400).json({
+        message: "Invalid password or email",
+      });
     }
 
-    const token = jwt.sign({
+    const token = jwt.sign(
+      {
         id: user._id,
         email: user.email,
-    },
-        'shhhhhh',
-    {
-        expiresIn:'24h'
-    });
+      },
+      "shhhhhh",
+      {
+        expiresIn: "24h",
+      }
+    );
 
     const options = {
-        httpOnly: true,
-        secure: true
-    }
-
-    res.status(200)
-    .cookie("token", token, options)
-    .json({
-        message: "User logged in",
-        success: true,
-        user:{
-            id: user._id,
-            name: user.name,
-            role: user.role
-        }
-    })
-
-
-  } catch (error) {
-    res.status(500).json({
-        message: "someting went wrong while login"
-    })
-  }
-}
-
-const logoutUser = async (req, res) => {
-  await User.findById(req.user.id)
-
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
+      httpOnly: true,
+      secure: true,
+    };
 
     res
-    .status(200)
-    .clearCookie("token", options)
-    .json({
-        message: "User loggedout successfully"
-    })
+      .status(200)
+      .cookie("token", token, options)
+      .json({
+        message: "User logged in",
+        success: true,
+        user: {
+          id: user._id,
+          name: user.name,
+          role: user.role,
+        },
+      });
+  } catch (error) {
+    res.status(500).json({
+      message: "someting went wrong while login",
+    });
+  }
+};
 
-}
+const logoutUser = async (req, res) => {
+  await User.findById(req.user.id);
 
-export { registerUser, 
-        varifyUser,
-        loginUser,
-        logoutUser };
+  try {
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    res.status(200).clearCookie("token", options).json({
+      message: "User loggedout successfully",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "someting went wrong while login",
+    });
+  }
+};
+
+export { registerUser, varifyUser, loginUser, logoutUser };
