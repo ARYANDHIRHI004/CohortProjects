@@ -3,6 +3,7 @@ const caption = document.getElementById("caption");
 const prevButton = document.getElementById("prevButton");
 const nextButton = document.getElementById("nextButton");
 const carouselNav = document.getElementById("carouselNav");
+const autoPlayButton = document.getElementById("autoPlayButton");
 const carousel_nav = document.getElementsByClassName("carousel-nav");
 
 const images = [
@@ -25,35 +26,45 @@ const images = [
 ];
 
 let currentIndex = 0;
+let img;
+let carouNav;
+function imageCrowsel() {
+  images.forEach((image, index) => {
+    img = document.createElement("img");
+    img.setAttribute("src", image.url);
+    img.className = "carousel-slide";
+    carouselTrack.appendChild(img);
 
-images.forEach((image, index) => {
-  const img = document.createElement("img");
-  img.setAttribute("src", image.url);
-  img.className = "carousel-slide";
-  carouselTrack.appendChild(img);
-  console.log();
+    carouNav = document.createElement("div");
+    carouNav.className = "carousel-indicator";
+    carouNav.setAttribute("id", index);
+    
+    carouselNav.appendChild(carouNav);
+   
+    
+  });
+}
 
-  const carouNav = document.createElement("div");
-  carouNav.className = "carousel-indicator";
-  console.log(carouNav);
-  
-  carouselNav.appendChild(carouNav);
-});
+imageCrowsel();
+
 
 caption.innerHTML = images[currentIndex].caption;
-nextButton.addEventListener("click", (e) => {
+
+function nextImage() {
   if (currentIndex < images.length - 1) {
     currentIndex++;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
+    
+    
   } else {
     currentIndex = 0;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
   }
-});
+}
 
-prevButton.addEventListener("click", (e) => {
+function previousImage() {
   if (currentIndex > 0) {
     currentIndex--;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -63,5 +74,32 @@ prevButton.addEventListener("click", (e) => {
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
   }
+}
+let interval;
+let counter = 0
+autoPlayButton.addEventListener("click", (e) => {
+  interval = setInterval(()=>{
+    nextImage()
+    document.getElementById(counter).style.backgroundColor = "blue"
+    document.getElementById(counter+1).removeAttribute("style")
+    counter++
+    if(counter >= image.length){
+      counter = 0
+    }
+    
+  }, 2000);
+
 });
+
+nextButton.addEventListener("click", (e) => {
+  nextImage();
+  clearInterval(interval);
+});
+
+prevButton.addEventListener("click", (e) => {
+  previousImage();
+  clearInterval(interval);
+});
+
+
 

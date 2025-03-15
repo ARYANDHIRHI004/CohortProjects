@@ -51,17 +51,17 @@ const registerUser = async (req, res) => {
     await user.save();
 
     // Looking to send emails in production? Check out our Email API/SMTP product!
-    const transport = nodemailer.createTransport({
-      host: process.env.MAILTRAP_SENDERMAIL,
+    let transport = nodemailer.createTransport({
+      host: "sandbox.smtp.mailtrap.io",
       port: 2525,
       auth: {
-        user: process.env.MAILTRAP_USER,
-        pass: process.env.MAILTRAP_PASS,
+        user: "75200eea3fee39",
+        pass: "0b0f9ef9b59d2c",
       },
     });
 
     const mailOption = {
-      from: process.env.MAILTRAP_SENDERMAIL,
+      from: "aryanaxprass004@demomailtrap.com",
       to: user.email,
       subject: "Verify your email",
       text: `Please click on the following link: ${process.env.BASE_URL}/api/v1/user/verify/${token}`,
@@ -69,12 +69,12 @@ const registerUser = async (req, res) => {
 
     await transport.sendMail(mailOption);
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "User create successfully",
       success: true,
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "User not register",
       success: false,
       error,
@@ -113,11 +113,11 @@ const varifyUser = async (req, res) => {
     user.verificationToken = undefined; //charcha
     await user.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Varification successfull",
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "User not register",
     });
   }
@@ -154,7 +154,7 @@ const loginUser = async (req, res) => {
         id: user._id,
         email: user.email,
       },
-      "shhhhhh",
+      process.env.JWT_SECRET,
       {
         expiresIn: "24h",
       }
@@ -165,7 +165,7 @@ const loginUser = async (req, res) => {
       secure: true,
     };
 
-    res
+    return res
       .status(200)
       .cookie("token", token, options)
       .json({
@@ -178,14 +178,13 @@ const loginUser = async (req, res) => {
         },
       });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "someting went wrong while login",
     });
   }
 };
 
 const logoutUser = async (req, res) => {
-  await User.findById(req.user.id);
 
   try {
     const options = {
@@ -193,14 +192,40 @@ const logoutUser = async (req, res) => {
       secure: true,
     };
 
-    res.status(200).clearCookie("token", options).json({
+
+    return res.status(200).clearCookie("token", options).json({
       message: "User loggedout successfully",
     });
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "someting went wrong while login",
     });
   }
 };
 
-export { registerUser, varifyUser, loginUser, logoutUser };
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user?.id).select("-password");
+    console.log(user);
+    
+    return res.status(200).json({user})
+  } catch (error) {
+    return res.status(400).json({
+      message: "someting went wrong while getting user",
+    });
+  }
+};
+
+const forgotPassword = async (req, res) => {};
+
+const resetPassword = async (req, res) => {};
+
+export {
+  registerUser,
+  varifyUser,
+  loginUser,
+  logoutUser,
+  getMe,
+  resetPassword,
+  forgotPassword,
+};
