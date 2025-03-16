@@ -3,7 +3,7 @@ import { registerUser } from "../controller/auth.controller.js";
 
 const userRouter = express.Router()
 
-userRouter.prototype("/register", registerUser)
+userRouter.get("/register", registerUser)
 
 
 export default userRouter

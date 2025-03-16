@@ -17,7 +17,8 @@ model User {
   id                  String   @id @default(cuid())
   name                String
   email               String   @unique
-  password            String
+  phone               String
+  password            String   @unique
   role                String   @default("user")
   isverified          Boolean  @default(false)
   verificationToken   String?

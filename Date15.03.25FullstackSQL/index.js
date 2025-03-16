@@ -19,21 +19,16 @@ app.use(cors({
 }))
 
 app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
 
 app.use('/api/v1/users', userRouter)
 
-app.get("/", (req, res) => {
-  res.status
-}
-)
 
 
-app.listen(postMessage, () => {
-  console.log(`Server is listening at ${PORT}`);
-  
+app.listen(PORT, () => {
+  console.log(`Server is listening at ${PORT}`);  
 })
 
 
