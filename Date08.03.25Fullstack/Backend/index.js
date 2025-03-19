@@ -3,6 +3,11 @@ import dotenv from "dotenv"
 import cors from "cors"
 import connect from "./utils/db.js";
 import cookieParser from "cookie-parser";
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //import all routes
 import userRouter from "./routes/user.routes.js";
@@ -25,16 +30,12 @@ app.use(express.json({limit:'10kb'}))
 app.use(express.urlencoded({limit:'10kb'}))
 app.use(cookieParser())
 
+
 app.get("/", (req,res) => {
-  res.send("Cohort!")
+  res.sendFile(path.join(__dirname, '/views/index.html'))
 })
-
-app.get("/aryan", (req,res) => {
-  res.send("Aryan")
-})
-
-app.get("/HiteshSir", (req, res) => {
-  res.send("chai wale sir")
+app.get("/login", (req,res) => {
+  res.sendFile(path.join(__dirname, '/views/login.html'))
 })
 
 connect()

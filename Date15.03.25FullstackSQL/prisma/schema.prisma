@@ -18,6 +18,7 @@ model User {
   name                String
   email               String   @unique
   phone               String
+  fname               String
   password            String   @unique
   role                String   @default("user")
   isverified          Boolean  @default(false)

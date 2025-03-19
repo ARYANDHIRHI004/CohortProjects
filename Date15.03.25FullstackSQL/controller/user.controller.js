@@ -18,7 +18,7 @@ export const registerUser = async (req, res)=>{
             })
         }
         
-        const existedUser = prisma.user.findFirst({
+        const existedUser = await prisma.user.findFirst({
             where: {name, email, password}
         })
 
@@ -29,18 +29,24 @@ export const registerUser = async (req, res)=>{
 
         const verificationToken = crypto.randomBytes(32).toString("hex")
 
-        await prisma.user.create({
+        const user = await prisma.user.create({
             data:{
                 name,
                 email,
                 password: hashedPassword,
                 verificationToken,
-                phone
+                phone,
+                fname:""
 
             }
         })
 
         //Sand mail
+        return res.status(200).json({
+            success: true,
+            message: "registration successfull",
+            user
+        })
         
     } catch (error) {
         return res.status(400).json({
@@ -60,9 +66,11 @@ export const loginUser = async (req, res) => {
                 message: "all fields are required"
             })
         }
+        
+        
     
         const user =  await prisma.user.findFirst({
-            where: email
+            where: {email}
         })
 
         if (!user) {

@@ -4,7 +4,8 @@ import cors from "cors"
 import cookieParser from "cookie-parser";
 
 //custom routes
-import userRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js";
+import oidcRoute from "./routes/oidc.routes.js";
 
 dotenv.config({
     path: "./.env"
@@ -24,6 +25,7 @@ app.use(cookieParser())
 
 
 app.use('/api/v1/users', userRouter)
+app.use('/oidc', oidcRoute)
 
 
 
