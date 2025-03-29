@@ -84,6 +84,7 @@ export const well_known = async (req, res) => {
 };
 
 const authorization_code = crypto.randomBytes(32).toString('hex')
+
 export const authorization_endpoint = async (req, res) => {
   const {email, password} = req.body
 
@@ -112,10 +113,8 @@ export const authorization_endpoint = async (req, res) => {
 
   
   
-  return res.status(200).json({
-    message: `${process.env.BASE_URL}/oidc/oauth/token/${authorization_code}`})
+  return res.status(200).redirect(`${process.env.BASE_URL}/oidc/oauth/token/${authorization_code}`)
 }
-
 
 export const token_endpoint =  async (req, res) => {
   const {code} = req.params
@@ -127,7 +126,7 @@ export const token_endpoint =  async (req, res) => {
     })
   }
 
-  // const publicKey = fs.readFileSync('./controller/public.key', 'utf8')
+
   const privateKey = fs.readFileSync('./controller/private.key', 'utf8')
 
   const jwtToken = jwt.sign(
@@ -141,22 +140,34 @@ export const token_endpoint =  async (req, res) => {
     }
   );
   
-  console.log(jwtToken);
-  
-  return res.status(200).json({
-    message: "token sended"
-  })
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+  .status(200)
+  .cookie("token", jwtToken, options)
+  .redirect(`${process.env.BASE_URL}/oidc/.well-known/jwks.json`)
 
 
 }
 
 export const jwks_uri = async (req, res) => {
-  
+  const publicKey = fs.readFileSync('./controller/public.key', 'utf8')
+  const jwtToken = req.cookies?.token  
+  jwt.verify(jwtToken, publicKey, (err, decodedToken) => {
+    if (err) {
+      console.error("Signature verification failed:", err);
+    } else {
+      return res.status(200).redirect(`http://127.0.0.1:3000/views/home.html`)
+    }})
 };
 
 export const userinfo_endpoint =  async (req, res) => {
   
 }
+
 
 
 
