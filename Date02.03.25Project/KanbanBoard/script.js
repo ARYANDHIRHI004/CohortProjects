@@ -1,80 +1,53 @@
-const addBoard = document.getElementById('addBoxBtn')
-const pop = document.getElementById('pop')
-const cross1 = document.getElementById('cross1')
-const task = document.getElementById('task')
-const desc = document.getElementById('desc')
-const disccontdesc = document.getElementById('disccont')
-const favcolor = document.getElementById('favcolor')
-const addBoxBtn2 = document.getElementById('addBoxBtn2')
-const boxContainer =  document.getElementsByClassName('container')[0]
-const btns = document.querySelectorAll('.btns')
+const addTodoTaks = document.getElementById("addTodoTaks")
+const popup = document.getElementsByClassName("popup")[0]
+const addText = document.getElementById("addText")
+const input = document.getElementById("input")
+const items1 = document.getElementsByClassName("items1")[0]
 
-addBoard.addEventListener("click", (e) => {
-  addBoxBtn2.innerText = "Create Box"
-  pop.removeAttribute("style")
-  disccontdesc.style.display = "none"  
+
+addTodoTaks.addEventListener("click", (e) => {
+    popup.removeAttribute("style")
 })
 
-function createBox(input){
-  const box = document.createElement('div')
-  box.classList.add("board")
-  box.setAttribute("id",String(input).trim())
-  const heading = document.createElement("h1")
-  heading.innerText = input
-  box.appendChild(heading)
-  const innerBtn = document.createElement("button")
-  innerBtn.classList.add("btns")
-  innerBtn.innerText = `+ Add Task`
-  innerBtn.setAttribute("id", `${String(input)}Task`)
-  getBtns(innerBtn)
-  box.appendChild(innerBtn)
-  boxContainer.appendChild(box)
-} 
+function flyingclass(item){
+  item.addEventListener("dragstart", () => {
+      item.classList.add("flying")
+    })
+    item.addEventListener("dragend", () => {
+      item.classList.remove("flying")
+    })
+}
 
-addBoxBtn2.addEventListener("click", (e) => {
-  const input = task.value
-  if(!input) return
-  if(addBoxBtn2.innerText === "Create Box"){
-    createBox(input)
-  }
-  task.value = null 
-  pop.style.display = "none"
-  disccontdesc.removeAttribute("style") 
-})
-
-function createTaskCard(parentID){
-  const taskCard = document.createElement("p");
-  taskCard.classList.add('item')
-
-  const parent = document.getElementById(`${parentID}`)
-  const taskValue = task.value
-  if(!taskValue) return
-  addBoxBtn2.addEventListener('click', (e) => {
-    console.log(taskValue);
-    taskCard.innerText = taskValue;
-    parent.appendChild(taskCard)
-    pop.style.display = "none"
-  })
+addText.addEventListener("click", (e) => {
+    console.log(input.value);
+    if(!input.value) return
+    const p = document.createElement("p")
+    p.innerHTML = input.value
+    p.setAttribute("class", "item")
+    p.setAttribute("draggable", true)
+    items1.appendChild(p)
+    flyingclass(p)
     
+    popup.style.display = "none"
+    input.value = null
+})   
 
-}
 
-function getBtns(btns){
-    pop.removeAttribute("style")    
-    // addBoxBtn2.innerText = "Create Task"
-    const parentID = btns.parentElement.getAttribute('id')
-    createTaskCard(parentID)  
-}
+const allBoards = document.querySelectorAll('.board')
+const allItems = document.querySelectorAll(".item")
 
-btns.forEach((btns) => {
-  btns.addEventListener("click", (e) => {
-  getBtns(btns)
+allItems.forEach((item)=>{
+  flyingclass(item)
+})
+
+allBoards.forEach((board)=>{ 
+  board.addEventListener("dragover", () => {
+    const flyingElement = document.querySelector('.flying')
+    board.childNodes[5].appendChild(flyingElement)     
   })
-  
 })
 
-cross1.addEventListener("click", (e) => {
-    pop.style.display = "none"
-    task.value = null
-    disccontdesc.removeAttribute("style") 
-})
+
+
+
+

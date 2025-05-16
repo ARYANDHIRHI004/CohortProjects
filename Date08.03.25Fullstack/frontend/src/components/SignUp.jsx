@@ -26,7 +26,7 @@ const SignUp = () => {
             if(data.success){
                 navigate("/login")
             }else{
-                setError(data.message || 'Signup failed')
+                setError(data.message || 'login failed')
             }
         } catch (error) {}
         finally{
@@ -78,7 +78,7 @@ const SignUp = () => {
                 <button 
                 type="submit"
                 disabled={loading}
-                >{loading? "Signup...": "Signup"}</button>
+                >{loading? "login...": "login"}</button>
 
             </div>
         </form>    

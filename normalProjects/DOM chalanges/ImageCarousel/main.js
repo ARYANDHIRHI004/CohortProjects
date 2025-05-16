@@ -38,11 +38,13 @@ function imageCrowsel() {
     carouNav = document.createElement("div");
     carouNav.className = "carousel-indicator";
     carouNav.setAttribute("id", index);
+  
     
     carouselNav.appendChild(carouNav);
    
     
   });
+  document.getElementById(currentIndex).style.backgroundColor = "blue"
 }
 
 imageCrowsel();
@@ -55,12 +57,17 @@ function nextImage() {
     currentIndex++;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
+    document.getElementById(currentIndex).style.backgroundColor = "blue"
+    document.getElementById(currentIndex-1).removeAttribute("style")
     
     
   } else {
     currentIndex = 0;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
+    document.getElementById(currentIndex).style.backgroundColor = "blue"
+    document.getElementById(images.length - 1).removeAttribute("style")
+
   }
 }
 
@@ -69,10 +76,14 @@ function previousImage() {
     currentIndex--;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
+    document.getElementById(currentIndex).style.backgroundColor = "blue"
+    document.getElementById(currentIndex+1).removeAttribute("style")
   } else {
     currentIndex = images.length - 1;
     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     caption.innerHTML = images[currentIndex].caption;
+    document.getElementById(currentIndex).style.backgroundColor = "blue"
+    document.getElementById(currentIndex-currentIndex).removeAttribute("style")
   }
 }
 let interval;
@@ -80,8 +91,6 @@ let counter = 0
 autoPlayButton.addEventListener("click", (e) => {
   interval = setInterval(()=>{
     nextImage()
-    document.getElementById(counter).style.backgroundColor = "blue"
-    document.getElementById(counter+1).removeAttribute("style")
     counter++
     if(counter >= image.length){
       counter = 0

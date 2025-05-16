@@ -1,170 +1,58 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-body {
-  background-image: url("image.jpg");
-  background-size: cover;
-  background-position: center;
+    margin: 0;  
+    padding: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.nav {
-    color: white;
-  background-color: rgba(0, 0, 0, 0.774);
-  height: 50px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.btns{
-    padding: 10px;
-    text-align: left;
-    width: 100%;
-    height: 30px;
-    margin-top:10px;
-    border: none;
-    background-color: rgb(255, 255, 255);
-    cursor: pointer;
-}
-
-#addBoxBtn{
-    font-size: 15px;
-    padding: 3px 10px;
-    border: none;
-    border-radius: 50px;
-}
-#addBoxBtn:hover{
-    background-color: black;
-    color: white;
-}
-
-#search{
-    width: 150px;
-    border-radius: 50px;
-    height: 20px;
-    padding: 10px;
-}
-
-.outerBox {
-  height: 100vh;
-}
-.container {
-    color: rgb(214, 214, 214);
-  display: flex;
-  height: 92vh;
-  flex-shrink: 0;
-  overflow: auto;
-  gap: 15px;
-  padding: 20px;
-}
-
-.board {
-  background-color: rgba(126, 126, 126, 0.466);
-  min-height: 30vh;
-  max-height: 85vh;
-  min-width: 300px;
-  padding: 10px;
-  box-shadow: 5px 5px 10px rgb(0, 0, 0);
-}
-.color{
-    height: 5px;
-    color: green;
-}
-
-#addBox{
+.boards{
+    padding: 50px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 50px;
+    min-height: 80vh;
+}
+
+.board{
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 5px 5px 10px 5px;
+    width: 20vw;
+}
+.item{
+    text-align: left;
+    padding: 5px;
+    box-sizing: border-box;
+    margin: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px 1px;
+    height: 35px;
     cursor: pointer;
+
 }
 
-.item {
-    font-size: 15px;
-    background-color: white;
-    color: rgb(0, 0, 0);
-  padding: 10px 10px;
-  margin: 10px 2px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-.dltBtn{
-    height: 20px;
-    width: 50px;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.521);
-    color: white;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-.item:hover {
-  background-color: black;
-  color: white;
-}
-.item:-moz-drag-over {
-  cursor: pointer;
-}
-
-#pop{
+.popup{
     position: absolute;
     top: 0;
     left: 0;
-}
-
-.inputBox{
-    background-color: rgb(255, 255, 255);
-    height: 45vh;
-    width:18vw;
     display: flex;
-    gap: 20px;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 10px;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.658);
+    height: 100vh;
+    width: 100vw;
 }
 
-.input{
-    height: 30px;
-    width: 180px;
-    border-radius: 50px;
-    padding: 5px;
-}
-#favcolor{
-
-    padding: 0;
-    margin: 0;
-    width: 30px;
-    height: 30px;
+.popupContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    height: 250px;
+    width: 200px;
 }
 
-.CreateBtn{
-    color: white;
-    font-size: 15px;
-    padding: 5px 15px;
-    border: none;
-    background-color: rgb(0, 0, 100);
-}
 
-#cross1{
-    background-color: rgb(0, 0, 68);
-    color: white;
-    font-size: 20px;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    border: none;
-}
-#pop{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.815);
-  height: 100%;
-  width: 100%;
-}

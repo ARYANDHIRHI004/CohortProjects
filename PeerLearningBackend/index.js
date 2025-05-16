@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000
 
 connectDB()
 .then(() => {
-    app.listen(prompt, () => {
+    app.listen(PORT, () => {
         console.log(`Server is listencing at port ${PORT}`);
         
     })
